@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jadual Kerja Lebih Masa PPF HKGU 2026</title>
+<style>
+  :root {
+    --bg: #eef3f2;
+    --surface: rgba(255,255,255,.86);
+    --surface-solid: #ffffff;
+    --ink: #13202a;
+    --muted: #647181;
+    --muted-2: #93a0ad;
+    --line: rgba(19,32,42,.12);
+    --line-strong: rgba(19,32,42,.22);
+    --accent: #264f64;
+    --accent-2: #7c8f71;
+    --soft-blue: #e6f1f5;
+    --soft-green: #eaf4ed;
+    --soft-amber: #fff3d9;
+    --soft-violet: #f0ebfa;
+    --shadow: 0 22px 60px rgba(20, 35, 47, .12);
+    --shadow-soft: 0 10px 28px rgba(20, 35, 47, .08);
+    --radius-xl: 28px;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --font: "Arial Narrow", Arial, Helvetica, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 8% 0%, rgba(38,79,100,.22), transparent 30rem),
+      radial-gradient(circle at 92% 5%, rgba(124,143,113,.22), transparent 28rem),
+      linear-gradient(135deg, #edf3f4 0%, #f8f6ef 52%, #eef2ef 100%);
+  }
+
+  button, input, select { font: inherit; }
+
+  #rosterApp {
+    width: min(1580px, 100%);
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 14px 0 16px;
+    backdrop-filter: blur(18px);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 22px 24px;
+    border: 1px solid rgba(255,255,255,.58);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.96), rgba(255,255,255,.74)),
+      linear-gradient(90deg, rgba(38,79,100,.10), rgba(124,143,113,.08));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .eyebrow {
+    margin: 0 0 7px;
+    font-size: 13px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 900;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(30px, 3.3vw, 50px);
+    line-height: .96;
+    letter-spacing: -.035em;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 880px;
+  }
+
+  .status-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 9px 13px;
+    background: rgba(255,255,255,.72);
+    color: var(--muted);
+    font-size: 15px;
+    white-space: nowrap;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+  }
+
+  .pill strong { color: var(--ink); font-size: 16px; }
+
+  .controls {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) auto auto;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,.58);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,.76);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .searchbox input, .select {
+    height: 46px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    outline: none;
+    background: var(--surface-solid);
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+  }
+
+  .searchbox { position: relative; }
+  .searchbox input {
+    width: 100%;
+    padding: 0 16px;
+    font-size: 18px;
+  }
+
+  .searchbox input:focus, .select:focus {
+    border-color: rgba(38,79,100,.48);
+    box-shadow: 0 0 0 4px rgba(38,79,100,.10);
+  }
+
+  .select {
+    min-width: 160px;
+    padding: 0 14px;
+    font-size: 17px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(19,32,42,.055);
+  }
+
+  .tab {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 16px;
+  }
+
+  .tab.active {
+    background: linear-gradient(135deg, #142631, #2b5366);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .view { display: none; margin-top: 18px; }
+  .view.active { display: block; }
+
+  .calendar-shell {
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: rgba(255,255,255,.64);
+    box-shadow: var(--shadow);
+  }
+
+  .weekday-row, .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(155px, 1fr));
+  }
+
+  .weekday {
+    padding: 12px;
+    color: var(--muted);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.72);
+  }
+
+  .day-card {
+    min-height: 216px;
+    padding: 12px;
+    border: 0;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.60);
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .day-card:nth-child(7n) { border-right: 0; }
+  .day-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,.96);
+    box-shadow: inset 0 0 0 2px rgba(38,79,100,.16), var(--shadow-soft);
+    z-index: 2;
+  }
+
+  .day-card.outside { opacity: .36; background: rgba(255,255,255,.32); cursor: default; }
+  .day-card.weekend:not(.outside) { background: linear-gradient(180deg, rgba(255,243,217,.86), rgba(255,255,255,.64)); }
+  .day-card.has-duty { min-height: 238px; }
+
+  .day-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .date-num {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -.04em;
+  }
+
+  .day-name {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .count-badge {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(19,32,42,.08);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: 13px;
+  }
+
+  .slot-stack { display: grid; gap: 8px; }
+
+  .slot-mini {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 8px;
+    background: rgba(255,255,255,.78);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.78);
+  }
+
+  .slot-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .unit-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .04em;
+    color: #152630;
+    border: 1px solid rgba(19,33,45,.12);
+  }
+  .unit-OPD { background: var(--soft-blue); }
+  .unit-IPP { background: var(--soft-green); }
+  .unit-AE { background: var(--soft-violet); }
+  .unit-PREPACK { background: var(--soft-amber); }
+
+  .time {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 900;
+  }
+
+  .names {
+    font-size: 15.5px;
+    line-height: 1.18;
+    font-weight: 900;
+  }
+
+  .more {
+    margin-top: 3px;
+    font-weight: 900;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 14px;
+  }
+
+  .staff-card, .daily-card {
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,.84);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+
+  .staff-card header, .daily-card header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(19,32,42,.045), rgba(38,79,100,.06));
+    border-bottom: 1px solid var(--line);
+  }
+
+  .staff-name, .daily-date {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -.02em;
+  }
+
+  .small-count {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .duty-list {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .duty-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 10px;
+    align-items: start;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,.74);
+  }
+
+  .duty-date { font-weight: 900; font-size: 17px; }
+  .duty-meta { color: var(--muted); font-weight: 800; font-size: 14px; }
+  .duty-name { font-size: 18px; font-weight: 900; }
+
+  .empty-state {
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,.62);
+  }
+
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 20, 28, .42);
+    display: none;
+    z-index: 100;
+  }
+  .drawer-backdrop.open { display: block; }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(520px, 100%);
+    height: 100vh;
+    transform: translateX(105%);
+    transition: transform .2s ease;
+    background: #fff;
+    box-shadow: -24px 0 64px rgba(0,0,0,.18);
+    z-index: 110;
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-head {
+    padding: 20px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(145deg, #ffffff, #eef4f7);
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .drawer-title {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .drawer-subtitle { margin: 6px 0 0; color: var(--muted); font-weight: 800; }
+
+  .close {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .drawer-body { padding: 16px; overflow: auto; }
+
+  .integration-note {
+    margin: 18px 0 0;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: var(--radius-lg);
+    color: var(--muted);
+    background: rgba(255,255,255,.72);
+    font-size: 15px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hidden-by-filter { display: none !important; }
+
+  @media (max-width: 1100px) {
+    #rosterApp { padding: 14px; }
+    .hero { grid-template-columns: 1fr; }
+    .status-pills { justify-content: flex-start; }
+    .controls { grid-template-columns: 1fr; }
+    .tabs { width: 100%; overflow-x: auto; }
+    .tab { flex: 1 0 auto; }
+    .weekday-row, .calendar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .weekday-row { display: none; }
+    .day-card { min-height: 190px; }
+  }
+
+  @media (max-width: 640px) {
+    .weekday-row, .calendar-grid { grid-template-columns: 1fr; }
+    .hero { padding: 18px; }
+    .subtitle { font-size: 16px; }
+    .day-card { min-height: auto; }
+    .duty-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="rosterApp" data-integration="static-html-ready">
+  <div class="topbar">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Jabatan Farmasi Hospital Keningau</p>
+        <h1>Jadual Kerja Lebih Masa PPF HKGU 2026</h1>
+        <p class="subtitle">Paparan kalendar dahulu. Klik tarikh untuk butiran. Search dan filter disediakan untuk semakan pantas.</p>
+      </div>
+      <div class="status-pills" aria-label="Roster summary">
+        <span class="pill"><span>Month</span><strong>Julai 2026</strong></span>
+        <span class="pill"><span>Staff</span><strong id="staffTotal">0</strong></span>
+        <span class="pill"><span>Duties</span><strong id="dutyTotal">0</strong></span>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Roster controls">
+      <div class="searchbox">
+        <input id="searchInput" type="search" placeholder="Search name, unit, date, day, or time..." autocomplete="off">
+      </div>
+      <select id="unitFilter" class="select" aria-label="Filter unit">
+        <option value="ALL">All units</option>
+        <option value="OPD">OPD</option>
+        <option value="IPP">IPP</option>
+        <option value="PREPACK">Prepack</option>
+        <option value="AE">AE</option>
+      </select>
+      <nav class="tabs" aria-label="Roster views">
+        <button class="tab active" data-view="calendarView" type="button">Month</button>
+        <button class="tab" data-view="staffView" type="button">Staff</button>
+        <button class="tab" data-view="dailyView" type="button">Daily</button>
+      </nav>
+    </section>
+  </div>
+
+  <main>
+    <section id="calendarView" class="view active" aria-label="Calendar month view">
+      <div class="calendar-shell">
+        <div class="weekday-row" id="weekdayRow"></div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+      <div class="integration-note">Integration-ready note: this is a self-contained HTML display. For Google Sites later, it can be embedded as an iframe or converted into an Apps Script HTML page with the roster JSON supplied by backend data.</div>
+    </section>
+
+    <section id="staffView" class="view" aria-label="Staff view">
+      <div class="cards-grid" id="staffGrid"></div>
+    </section>
+
+    <section id="dailyView" class="view" aria-label="Daily chronological view">
+      <div class="cards-grid" id="dailyGrid"></div>
+    </section>
+  </main>
+</div>
+
+<div id="drawerBackdrop" class="drawer-backdrop"></div>
+<aside id="drawer" class="drawer" aria-label="Date detail panel" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <h2 id="drawerTitle" class="drawer-title">Date</h2>
+      <p id="drawerSubtitle" class="drawer-subtitle">Duty detail</p>
+    </div>
+    <button id="closeDrawer" class="close" type="button" aria-label="Close detail panel">×</button>
+  </div>
+  <div id="drawerBody" class="drawer-body"></div>
+</aside>
+
+<script>
+// Replace this JSON from Google Apps Script later if integrating into Option C / Roster Hub.
+const rosterData = {"daily": {"2026-07-01": [{"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "IPP", "names": ["QURRATU"]}, {"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "OPD", "names": ["JULINAH", "NGACHIRAN", "RAIDAH"]}, {"date": "2026-07-01", "day": "RABU", "time": "22:00–08:00", "unit": "AE", "names": ["AINUN"]}], "2026-07-02": [{"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP", "names": ["USILI"]}, {"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD", "names": ["ISAWATI", "RIKY", "SELYVESTER.JK"]}, {"date": "2026-07-02", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE", "names": ["PEGAWAI F"]}], "2026-07-03": [{"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP", "names": ["JOSIE"]}, {"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD", "names": ["RAIDAH", "RUSDI", "ANIEDA"]}, {"date": "2026-07-03", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE", "names": ["FETRE"]}], "2026-07-06": [{"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP", "names": ["ANIEDA"]}, {"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD", "names": ["NORSOLEHAH", "ISAWATI", "RIKY"]}, {"date": "2026-07-06", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE", "names": ["NGACHIRAN"]}], "2026-07-07": [{"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP", "names": ["JOSIE"]}, {"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD", "names": ["NORSOLEHAH", "JULINAH", "HILDA"]}, {"date": "2026-07-07", "day": "SELASA", "time": "22:00–08:00", "unit": "AE", "names": ["DIANA"]}], "2026-07-08": [{"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "IPP", "names": ["DIANA"]}, {"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "OPD", "names": ["NGACHIRAN", "RAIDAH", "ISAWATI"]}, {"date": "2026-07-08", "day": "RABU", "time": "22:00–08:00", "unit": "AE", "names": ["USILI"]}], "2026-07-09": [{"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP", "names": ["QURRATU"]}, {"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD", "names": ["BELTON", "RUSDI", "SELYVESTER.JK"]}, {"date": "2026-07-09", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE", "names": ["PEGAWAI F"]}], "2026-07-10": [{"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP", "names": ["CECELIA"]}, {"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD", "names": ["HILDA", "FETRE", "RAIDAH"]}, {"date": "2026-07-10", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE", "names": ["QURRATU"]}], "2026-07-13": [{"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP", "names": ["HERMAN"]}, {"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD", "names": ["HILDA", "ISAWATI", "QURRATU"]}, {"date": "2026-07-13", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE", "names": ["JUBAIDAH"]}], "2026-07-14": [{"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP", "names": ["JUBAIDAH"]}, {"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD", "names": ["AINUN", "WEDAYATI", "NORSOLEHAH"]}, {"date": "2026-07-14", "day": "SELASA", "time": "22:00–08:00", "unit": "AE", "names": ["NORSOLEHAH"]}], "2026-07-15": [{"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "IPP", "names": ["DIANA"]}, {"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "OPD", "names": ["NGACHIRAN", "SELYVESTER.JK", "BELTON"]}, {"date": "2026-07-15", "day": "RABU", "time": "22:00–08:00", "unit": "AE", "names": ["HERMAN"]}], "2026-07-16": [{"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP", "names": ["CECELIA"]}, {"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD", "names": ["USILI", "RUSDI", "JULINAH"]}, {"date": "2026-07-16", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE", "names": ["PEGAWAI F"]}], "2026-07-17": [{"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP", "names": ["FETRE"]}, {"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD", "names": ["BELTON", "JOSIE", "AINUN"]}, {"date": "2026-07-17", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE", "names": ["ISAWATI"]}], "2026-07-20": [{"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP", "names": ["JOSIE"]}, {"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD", "names": ["RIKY", "QURRATU", "JUBAIDAH"]}, {"date": "2026-07-20", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE", "names": ["FETRE"]}], "2026-07-21": [{"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP", "names": ["JUBAIDAH"]}, {"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD", "names": ["WEDAYATI", "AINUN", "ANIEDA"]}, {"date": "2026-07-21", "day": "SELASA", "time": "22:00–08:00", "unit": "AE", "names": ["HILDA"]}], "2026-07-22": [{"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "IPP", "names": ["FETRE"]}, {"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "OPD", "names": ["JUBAIDAH", "BELTON", "WEDAYATI"]}, {"date": "2026-07-22", "day": "RABU", "time": "22:00–08:00", "unit": "AE", "names": ["CECELIA"]}], "2026-07-23": [{"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP", "names": ["HERMAN"]}, {"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD", "names": ["AUDERY", "JULINAH", "RUSDI"]}, {"date": "2026-07-23", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE", "names": ["PEGAWAI F"]}], "2026-07-24": [{"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP", "names": ["USILI"]}, {"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD", "names": ["SELYVESTER.JK", "RIKY", "BELTON"]}, {"date": "2026-07-24", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE", "names": ["RIKY"]}], "2026-07-27": [{"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP", "names": ["AUDERY"]}, {"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD", "names": ["AUDERY", "HILDA", "ANIEDA"]}, {"date": "2026-07-27", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE", "names": ["QURRATU"]}], "2026-07-28": [{"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP", "names": ["AUDERY"]}, {"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD", "names": ["HERMAN", "RIKY", "CECELIA"]}, {"date": "2026-07-28", "day": "SELASA", "time": "22:00–08:00", "unit": "AE", "names": ["BELTON"]}], "2026-07-29": [{"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "IPP", "names": ["DIANA"]}, {"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "OPD", "names": ["NGACHIRAN", "AINUN", "ANIEDA"]}, {"date": "2026-07-29", "day": "RABU", "time": "22:00–08:00", "unit": "AE", "names": ["AUDERY"]}], "2026-07-30": [{"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP", "names": ["HERMAN"]}, {"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD", "names": ["WEDAYATI", "AINUN", "NORSOLEHAH"]}, {"date": "2026-07-30", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE", "names": ["ISAWATI"]}], "2026-07-31": [{"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP", "names": ["CECELIA"]}, {"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD", "names": ["USILI", "FETRE", "DIANA"]}, {"date": "2026-07-31", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE", "names": ["JUBAIDAH"]}], "2026-07-04": [{"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP", "names": ["DIANA", "CECELIA"]}, {"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD", "names": ["AINUN", "RIKY"]}, {"date": "2026-07-04", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK", "names": ["AUDERY"]}, {"date": "2026-07-04", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP", "names": ["JOSIE"]}, {"date": "2026-07-04", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD", "names": ["HILDA", "RAIDAH"]}, {"date": "2026-07-04", "day": "SABTU", "time": "22:00–08:00", "unit": "AE", "names": ["ANIEDA"]}], "2026-07-05": [{"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP", "names": ["HILDA", "SELYVESTER.JK"]}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD", "names": ["ISAWATI", "NORSOLEHAH"]}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK", "names": ["FETRE"]}, {"date": "2026-07-05", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP", "names": ["USILI"]}, {"date": "2026-07-05", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD", "names": ["RUSDI", "JULINAH"]}, {"date": "2026-07-05", "day": "AHAD", "time": "22:00–08:00", "unit": "AE", "names": ["JOSIE"]}], "2026-07-11": [{"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP", "names": ["FETRE", "DIANA"]}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD", "names": ["NGACHIRAN", "BELTON"]}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK", "names": ["AUDERY"]}, {"date": "2026-07-11", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP", "names": ["AUDERY"]}, {"date": "2026-07-11", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD", "names": ["JULINAH", "HILDA"]}, {"date": "2026-07-11", "day": "SABTU", "time": "22:00–08:00", "unit": "AE", "names": ["CECELIA"]}], "2026-07-12": [{"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP", "names": ["QURRATU", "ANIEDA"]}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD", "names": ["WEDAYATI", "ISAWATI"]}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK", "names": ["SELYVESTER.JK"]}, {"date": "2026-07-12", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP", "names": ["ANIEDA"]}, {"date": "2026-07-12", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD", "names": ["NGACHIRAN", "NORSOLEHAH"]}, {"date": "2026-07-12", "day": "AHAD", "time": "22:00–08:00", "unit": "AE", "names": ["RAIDAH"]}], "2026-07-18": [{"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP", "names": ["JUBAIDAH", "HERMAN"]}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD", "names": ["WEDAYATI", "RIKY"]}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK", "names": ["CECELIA"]}, {"date": "2026-07-18", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP", "names": ["QURRATU"]}, {"date": "2026-07-18", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD", "names": ["BELTON", "RAIDAH"]}, {"date": "2026-07-18", "day": "SABTU", "time": "22:00–08:00", "unit": "AE", "names": ["RUSDI"]}], "2026-07-19": [{"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP", "names": ["HERMAN", "JUBAIDAH"]}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD", "names": ["AINUN", "WEDAYATI"]}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK", "names": ["CECELIA"]}, {"date": "2026-07-19", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP", "names": ["JOSIE"]}, {"date": "2026-07-19", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD", "names": ["NORSOLEHAH", "RIKY"]}, {"date": "2026-07-19", "day": "AHAD", "time": "22:00–08:00", "unit": "AE", "names": ["JULINAH"]}], "2026-07-25": [{"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP", "names": ["JOSIE", "JUBAIDAH"]}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD", "names": ["BELTON", "AINUN"]}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK", "names": ["ISAWATI"]}, {"date": "2026-07-25", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP", "names": ["QURRATU"]}, {"date": "2026-07-25", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD", "names": ["RUSDI", "RAIDAH"]}, {"date": "2026-07-25", "day": "SABTU", "time": "22:00–08:00", "unit": "AE", "names": ["WEDAYATI"]}], "2026-07-26": [{"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP", "names": ["FETRE", "HERMAN"]}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD", "names": ["USILI", "SELYVESTER.JK"]}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK", "names": ["NGACHIRAN"]}, {"date": "2026-07-26", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP", "names": ["USILI"]}, {"date": "2026-07-26", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD", "names": ["JULINAH", "RUSDI"]}, {"date": "2026-07-26", "day": "AHAD", "time": "22:00–08:00", "unit": "AE", "names": ["ANIEDA"]}]}, "staffDuties": {"JULINAH": [{"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-05", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-11", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-19", "day": "AHAD", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}], "NGACHIRAN": [{"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-06", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-12", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}], "RAIDAH": [{"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-04", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-12", "day": "AHAD", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-18", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}], "QURRATU": [{"date": "2026-07-01", "day": "RABU", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-10", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-18", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-27", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE"}], "AINUN": [{"date": "2026-07-01", "day": "RABU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}], "ISAWATI": [{"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-17", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-30", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE"}], "RIKY": [{"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-19", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-24", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}], "SELYVESTER.JK": [{"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}], "USILI": [{"date": "2026-07-02", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-05", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-08", "day": "RABU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}], "PEGAWAI F": [{"date": "2026-07-02", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-09", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-16", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-23", "day": "KHAMIS", "time": "22:00–08:00", "unit": "AE"}], "RUSDI": [{"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-05", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-18", "day": "SABTU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}], "ANIEDA": [{"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-04", "day": "SABTU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-12", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-26", "day": "AHAD", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}], "JOSIE": [{"date": "2026-07-03", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-04", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-05", "day": "AHAD", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-19", "day": "AHAD", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}], "FETRE": [{"date": "2026-07-03", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-20", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}], "NORSOLEHAH": [{"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-06", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-12", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-14", "day": "SELASA", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-19", "day": "AHAD", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}], "HILDA": [{"date": "2026-07-04", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-05", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-07", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-11", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-21", "day": "SELASA", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}], "DIANA": [{"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-07", "day": "SELASA", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-08", "day": "RABU", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-29", "day": "RABU", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}], "BELTON": [{"date": "2026-07-09", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-15", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-17", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-18", "day": "SABTU", "time": "15:00–22:00", "unit": "OPD"}, {"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-24", "day": "JUMAAT", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-28", "day": "SELASA", "time": "22:00–08:00", "unit": "AE"}], "CECELIA": [{"date": "2026-07-04", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-10", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-11", "day": "SABTU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-16", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-22", "day": "RABU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-31", "day": "JUMAAT", "time": "18:00–22:00", "unit": "IPP"}], "HERMAN": [{"date": "2026-07-13", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-15", "day": "RABU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-26", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "IPP"}], "JUBAIDAH": [{"date": "2026-07-13", "day": "ISNIN", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-20", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "08:00–15:00", "unit": "IPP"}, {"date": "2026-07-31", "day": "JUMAAT", "time": "22:00–08:00", "unit": "AE"}], "WEDAYATI": [{"date": "2026-07-12", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-14", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-18", "day": "SABTU", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-19", "day": "AHAD", "time": "08:00–15:00", "unit": "OPD"}, {"date": "2026-07-21", "day": "SELASA", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-22", "day": "RABU", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-25", "day": "SABTU", "time": "22:00–08:00", "unit": "AE"}, {"date": "2026-07-30", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}], "AUDERY": [{"date": "2026-07-04", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-11", "day": "SABTU", "time": "08:00–14:00", "unit": "PREPACK"}, {"date": "2026-07-11", "day": "SABTU", "time": "15:00–22:00", "unit": "IPP"}, {"date": "2026-07-23", "day": "KHAMIS", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-27", "day": "ISNIN", "time": "18:00–22:00", "unit": "OPD"}, {"date": "2026-07-28", "day": "SELASA", "time": "18:00–22:00", "unit": "IPP"}, {"date": "2026-07-29", "day": "RABU", "time": "22:00–08:00", "unit": "AE"}]}, "staffCounts": {"JULINAH": 8, "NGACHIRAN": 8, "RAIDAH": 8, "QURRATU": 9, "AINUN": 9, "ISAWATI": 9, "RIKY": 9, "SELYVESTER.JK": 7, "USILI": 8, "PEGAWAI F": 4, "RUSDI": 8, "ANIEDA": 9, "JOSIE": 8, "FETRE": 9, "NORSOLEHAH": 8, "HILDA": 8, "DIANA": 7, "BELTON": 9, "CECELIA": 9, "HERMAN": 8, "JUBAIDAH": 9, "WEDAYATI": 8, "AUDERY": 8}, "allStaff": ["AINUN", "ANIEDA", "AUDERY", "BELTON", "CECELIA", "DIANA", "FETRE", "HERMAN", "HILDA", "ISAWATI", "JOSIE", "JUBAIDAH", "JULINAH", "NGACHIRAN", "NORSOLEHAH", "PEGAWAI F", "QURRATU", "RAIDAH", "RIKY", "RUSDI", "SELYVESTER.JK", "USILI", "WEDAYATI"]};
+
+const monthInfo = { year: 2026, monthIndex: 6, monthName: 'Julai 2026' };
+const dayNamesMs = ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'];
+const weekdayLabels = ['Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu','Ahad'];
+const timeOrder = {'08:00–14:00':1,'08:00–15:00':2,'15:00–22:00':3,'18:00–22:00':4,'22:00–08:00':5};
+
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function formatDateLabel(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${d.getDate()} ${monthInfo.monthName.split(' ')[0]}`;
+}
+
+function sortSlots(slots) {
+  return [...slots].sort((a,b) => (timeOrder[a.time] || 99) - (timeOrder[b.time] || 99) || a.unit.localeCompare(b.unit));
+}
+
+function slotMatches(slot, query, unit) {
+  if (unit !== 'ALL' && slot.unit !== unit) return false;
+  if (!query) return true;
+  const haystack = [slot.date, slot.day, slot.time, slot.unit, ...(slot.names || [])].join(' ').toLowerCase();
+  return haystack.includes(query);
+}
+
+function anySlotMatches(slots, query, unit) {
+  return slots.some(slot => slotMatches(slot, query, unit));
+}
+
+function getFilters() {
+  return {
+    query: document.getElementById('searchInput').value.trim().toLowerCase(),
+    unit: document.getElementById('unitFilter').value
+  };
+}
+
+function makeUnitChip(unit) { return `<span class="unit-chip unit-${esc(unit)}">${esc(unit)}</span>`; }
+
+function makeSlotMini(slot, compact=false) {
+  const names = slot.names || [];
+  const shown = compact ? names.slice(0, 3) : names;
+  const more = compact && names.length > 3 ? `<div class="more">+${names.length - 3} more</div>` : '';
+  return `<div class="slot-mini searchable" data-search="${esc([slot.date, slot.day, slot.time, slot.unit, ...names].join(' ').toLowerCase())}" data-unit="${esc(slot.unit)}">
+    <div class="slot-top">${makeUnitChip(slot.unit)}<span class="time">${esc(slot.time)}</span></div>
+    <div class="names">${shown.map(esc).join(', ') || '—'}</div>
+    ${more}
+  </div>`;
+}
+
+function renderSummary() {
+  const totalDuties = Object.values(rosterData.daily).flat().reduce((sum, slot) => sum + (slot.names || []).length, 0);
+  document.getElementById('staffTotal').textContent = rosterData.allStaff.length;
+  document.getElementById('dutyTotal').textContent = totalDuties;
+}
+
+function makeDateKey(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function renderCalendar() {
+  const weekdayRow = document.getElementById('weekdayRow');
+  weekdayRow.innerHTML = weekdayLabels.map(day => `<div class="weekday">${day}</div>`).join('');
+
+  const grid = document.getElementById('calendarGrid');
+  const first = new Date(monthInfo.year, monthInfo.monthIndex, 1);
+  const last = new Date(monthInfo.year, monthInfo.monthIndex + 1, 0);
+  const startOffset = (first.getDay() + 6) % 7; // Monday-first alignment
+  const totalCells = Math.ceil((startOffset + last.getDate()) / 7) * 7;
+  const cells = [];
+  const {query, unit} = getFilters();
+
+  for (let i = 0; i < totalCells; i++) {
+    const dayNumber = i - startOffset + 1;
+
+    // Keep the calendar aligned to weekday columns, but do not show previous/next month dates.
+    if (dayNumber < 1 || dayNumber > last.getDate()) {
+      cells.push(`<div class="day-card outside" aria-hidden="true"></div>`);
+      continue;
+    }
+
+    const d = new Date(monthInfo.year, monthInfo.monthIndex, dayNumber);
+    const dateStr = makeDateKey(d);
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const slots = sortSlots(rosterData.daily[dateStr] || []);
+    const filtered = slots.filter(slot => slotMatches(slot, query, unit));
+    const shouldHide = query || unit !== 'ALL' ? !anySlotMatches(slots, query, unit) : false;
+    const className = ['day-card', isWeekend ? 'weekend' : '', slots.length ? 'has-duty' : '', shouldHide ? 'hidden-by-filter' : ''].filter(Boolean).join(' ');
+    const dutyCount = slots.reduce((sum,s) => sum + (s.names || []).length, 0);
+    const displaySlots = (query || unit !== 'ALL') ? filtered : slots;
+    cells.push(`<button class="${className}" type="button" data-date="${dateStr}">
+      <div class="day-head">
+        <div><div class="date-num">${dayNumber}</div><div class="day-name">${dayNamesMs[d.getDay()]}</div></div>
+        ${dutyCount ? `<span class="count-badge">${dutyCount}</span>` : ''}
+      </div>
+      <div class="slot-stack">${displaySlots.map(s => makeSlotMini(s, true)).join('')}</div>
+    </button>`);
+  }
+  grid.innerHTML = cells.join('');
+  grid.querySelectorAll('.day-card:not(.outside)').forEach(card => card.addEventListener('click', () => openDrawer(card.dataset.date)));
+}
+
+function renderStaff() {
+  const grid = document.getElementById('staffGrid');
+  const {query, unit} = getFilters();
+  const html = rosterData.allStaff.map(name => {
+    const duties = (rosterData.staffDuties[name] || []).filter(slot => slotMatches({...slot, names:[name]}, query, unit));
+    if (!duties.length && (query || unit !== 'ALL')) return '';
+    return `<article class="staff-card searchable" data-search="${esc(name.toLowerCase())}">
+      <header><div class="staff-name">${esc(name)}</div><div class="small-count">${duties.length} duty</div></header>
+      <ul class="duty-list">
+        ${duties.map(d => `<li class="duty-item">
+          <div>${makeUnitChip(d.unit)}</div>
+          <div><div class="duty-date">${esc(formatDateLabel(d.date))} · ${esc(d.day)}</div><div class="duty-meta">${esc(d.time)}</div></div>
+        </li>`).join('')}
+      </ul>
+    </article>`;
+  }).join('');
+  grid.innerHTML = html || `<div class="empty-state">No matching staff duties found.</div>`;
+}
+
+function renderDaily() {
+  const grid = document.getElementById('dailyGrid');
+  const {query, unit} = getFilters();
+  const dates = Object.keys(rosterData.daily).sort();
+  const html = dates.map(date => {
+    const slots = sortSlots(rosterData.daily[date] || []).filter(slot => slotMatches(slot, query, unit));
+    if (!slots.length && (query || unit !== 'ALL')) return '';
+    const day = rosterData.daily[date]?.[0]?.day || '';
+    return `<article class="daily-card">
+      <header><div><div class="daily-date">${esc(formatDateLabel(date))}</div><div class="duty-meta">${esc(day)}</div></div><div class="small-count">${slots.reduce((s,x)=>s+(x.names||[]).length,0)} staff</div></header>
+      <ul class="duty-list">
+        ${slots.map(slot => `<li class="duty-item">
+          <div>${makeUnitChip(slot.unit)}</div>
+          <div><div class="duty-date">${esc(slot.time)}</div><div class="duty-name">${(slot.names || []).map(esc).join(', ')}</div></div>
+        </li>`).join('')}
+      </ul>
+    </article>`;
+  }).join('');
+  grid.innerHTML = html || `<div class="empty-state">No matching daily duties found.</div>`;
+}
+
+function openDrawer(dateStr) {
+  const slots = sortSlots(rosterData.daily[dateStr] || []);
+  const d = new Date(dateStr + 'T00:00:00');
+  document.getElementById('drawerTitle').textContent = `${d.getDate()} ${monthInfo.monthName.split(' ')[0]} 2026`;
+  document.getElementById('drawerSubtitle').textContent = dayNamesMs[d.getDay()];
+  document.getElementById('drawerBody').innerHTML = slots.length ? `<div class="slot-stack">${slots.map(s => makeSlotMini(s, false)).join('')}</div>` : `<div class="empty-state">No duty listed for this date.</div>`;
+  document.getElementById('drawerBackdrop').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'false');
+}
+
+function closeDrawer() {
+  document.getElementById('drawerBackdrop').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'true');
+}
+
+function rerender() {
+  renderCalendar();
+  renderStaff();
+  renderDaily();
+}
+
+renderSummary();
+rerender();
+
+document.getElementById('searchInput').addEventListener('input', rerender);
+document.getElementById('unitFilter').addEventListener('change', rerender);
+document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(tab.dataset.view).classList.add('active');
+}));
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+</script>
+</body>
+</html>
